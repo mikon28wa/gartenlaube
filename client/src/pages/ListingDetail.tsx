@@ -81,6 +81,11 @@ export default function ListingDetail() {
       </div>
 
       <div className="container py-8">
+        {/* SEO H1 */}
+        <h1 className="sr-only">
+          {laube.title} - Gartenlaube in {laube.city} am Radweg
+        </h1>
+        
         <div className="grid grid-cols-3 gap-8">
           {/* Left Content */}
           <div className="col-span-2">
@@ -97,6 +102,10 @@ export default function ListingDetail() {
               <h2 style={{ color: "#2C2C2C" }} className="text-2xl font-bold mb-4">
                 Über diese Laube
               </h2>
+              {/* SEO H2 for main content */}
+              <div className="sr-only">
+                <h2>Gartenlaube Details und Ausstattung</h2>
+              </div>
               <p style={{ color: "#8B8B8B" }} className="leading-relaxed mb-6">
                 {laube.description}
               </p>
