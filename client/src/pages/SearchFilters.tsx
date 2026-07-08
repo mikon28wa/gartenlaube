@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -29,17 +29,31 @@ export default function SearchFilters() {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [showAmenities, setShowAmenities] = useState(false);
 
-  // Fetch listings with filters
-  const { data: listings, isLoading } = trpc.gartenlauben.list.useQuery({
-    city: searchCity || undefined,
-    minPrice: minPrice ? Number(minPrice) : undefined,
-    maxPrice: maxPrice ? Number(maxPrice) : undefined,
-    maxDistanceToRadweg: maxDistance ? Number(maxDistance) : undefined,
-    amenities: selectedAmenities.length > 0 ? selectedAmenities : undefined,
-    limit: 100,
-  });
+  // Memoize query parameters to prevent unnecessary re-renders and race conditions
+  const queryParams = useMemo(
+    () => ({
+      city: searchCity || undefined,
+      minPrice: minPrice ? Number(minPrice) : undefined,
+      maxPrice: maxPrice ? Number(maxPrice) : undefined,
+      maxDistanceToRadweg: maxDistance ? Number(maxDistance) : undefined,
+      amenities: selectedAmenities.length > 0 ? selectedAmenities : undefined,
+      limit: 100,
+    }),
+    [searchCity, minPrice, maxPrice, maxDistance, selectedAmenities]
+  );
 
-  const handleSearch = () => {
+  // Fetch listings with memoized params
+  const { data: listings, isLoading } = trpc.gartenlauben.list.useQuery(
+    queryParams,
+    {
+      // Prevent unnecessary refetches
+      staleTime: 30000, // 30 seconds
+      gcTime: 5 * 60 * 1000, // 5 minutes
+    }
+  );
+
+  // Use useCallback to prevent function recreation on every render
+  const handleSearch = useCallback(() => {
     const params = new URLSearchParams();
     if (searchCity) params.append("city", searchCity);
     if (minPrice) params.append("minPrice", minPrice);
@@ -49,23 +63,25 @@ export default function SearchFilters() {
       params.append("amenities", selectedAmenities.join(","));
     }
     navigate(`/listings?${params.toString()}`);
-  };
+  }, [searchCity, minPrice, maxPrice, maxDistance, selectedAmenities, navigate]);
 
-  const toggleAmenity = (amenity: string) => {
+  // Use useCallback for toggleAmenity to ensure stable reference
+  const toggleAmenity = useCallback((amenity: string) => {
     setSelectedAmenities((prev) =>
       prev.includes(amenity)
         ? prev.filter((a) => a !== amenity)
         : [...prev, amenity]
     );
-  };
+  }, []);
 
-  const resetFilters = () => {
+  // Use useCallback for resetFilters
+  const resetFilters = useCallback(() => {
     setSearchCity("");
     setMinPrice("");
     setMaxPrice("");
     setMaxDistance("");
     setSelectedAmenities([]);
-  };
+  }, []);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#F5F1E8" }}>
