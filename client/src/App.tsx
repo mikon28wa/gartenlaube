@@ -11,6 +11,7 @@ import HostDashboard from "./pages/HostDashboard";
 import Profile from "./pages/Profile";
 import MapView from "./pages/MapView";
 import BookingTest from "./pages/BookingTest";
+import CalendarTest from "./pages/CalendarTest";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -23,6 +24,7 @@ function Router() {
       <Route path={"/profile"} component={Profile} />
       <Route path={"/map"} component={MapView} />
       <Route path="/booking-test" component={BookingTest} />
+      <Route path="/calendar-test" component={CalendarTest} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

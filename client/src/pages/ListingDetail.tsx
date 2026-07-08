@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { MapPin, Star, Heart, ChevronLeft, Users, Calendar, DollarSign } from "lucide-react";
 import { useState } from "react";
+import AvailabilityCalendar from "@/components/AvailabilityCalendar";
 import { useLocation, useRoute } from "wouter";
 import { trpc } from "@/lib/trpc";
 import type { Gartenlaube } from "../../../drizzle/schema";
@@ -15,6 +16,8 @@ export default function ListingDetail() {
   const { user, isAuthenticated } = useAuth();
   const [isFavorited, setIsFavorited] = useState(false);
   const [selectedDates, setSelectedDates] = useState({ start: "", end: "" });
+  const [selectedCheckIn, setSelectedCheckIn] = useState<Date | null>(null);
+  const [selectedCheckOut, setSelectedCheckOut] = useState<Date | null>(null);
 
   const laubenId = params?.id ? Number(params.id) : null;
 
@@ -166,6 +169,21 @@ export default function ListingDetail() {
                     )}
                   </div>
                 </div>
+              </div>
+
+              {/* Availability Calendar */}
+              <div className="mb-8">
+                <h3 style={{ color: "#2C2C2C" }} className="text-lg font-bold mb-4">
+                  Verfügbarkeit
+                </h3>
+                <AvailabilityCalendar
+                  gartenlaubeId={laubenId || 1}
+                  bookedDates={[]}
+                  onDateRangeSelect={(checkIn, checkOut) => {
+                    setSelectedCheckIn(checkIn);
+                    setSelectedCheckOut(checkOut);
+                  }}
+                />
               </div>
 
               {/* Reviews Section */}
