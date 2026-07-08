@@ -236,7 +236,23 @@ export async function getAllGartenlauben(filters?: {
     query = query.offset(filters.offset);
   }
 
-  return await query;
+  let results = await query;
+
+  // Client-side amenities filtering
+  if (filters?.amenities && filters.amenities.length > 0) {
+    results = results.filter((laube: any) => {
+      const laubeAmenities = Array.isArray(laube.amenities) 
+        ? laube.amenities 
+        : typeof laube.amenities === 'string' 
+          ? JSON.parse(laube.amenities) 
+          : [];
+      return filters.amenities!.some((amenity: string) => 
+        laubeAmenities.includes(amenity)
+      );
+    });
+  }
+
+  return results;
 }
 
 export async function updateGartenlaube(

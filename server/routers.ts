@@ -29,6 +29,7 @@ export const appRouter = router({
           minPrice: z.number().optional(),
           maxPrice: z.number().optional(),
           maxDistanceToRadweg: z.number().optional(),
+          amenities: z.array(z.string()).optional(),
           limit: z.number().default(20),
           offset: z.number().default(0),
         })
@@ -39,6 +40,7 @@ export const appRouter = router({
           minPrice: input.minPrice,
           maxPrice: input.maxPrice,
           maxDistanceToRadweg: input.maxDistanceToRadweg,
+          amenities: input.amenities,
           limit: input.limit,
           offset: input.offset,
         });

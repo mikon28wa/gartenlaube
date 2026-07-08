@@ -88,7 +88,7 @@ export default function Home() {
 
               <div className="flex gap-4">
                 <Button
-                  onClick={() => navigate("/listings")}
+                  onClick={() => navigate("/search")}
                   className="btn-primary"
                 >
                   Lauben entdecken
