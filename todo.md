@@ -1,31 +1,31 @@
 # GartenLaube - Projekt TODO
 
 ## Phase 1: Datenschema & Backend-Grundlagen
-- [ ] Datenbankschema definieren (Lauben, Buchungen, Bewertungen, Benutzer-Rollen)
-- [ ] Drizzle-Migrationen generieren und anwenden
-- [ ] tRPC-Router für Lauben-CRUD erstellen
-- [ ] tRPC-Router für Buchungen-Logik erstellen
-- [ ] Authentifizierung und Autorisierung (Gast vs. Gastgeber vs. Admin)
+- [x] Datenbankschema definieren (Lauben, Buchungen, Bewertungen, Benutzer-Rollen)
+- [x] Drizzle-Migrationen generieren und anwenden
+- [x] tRPC-Router für Lauben-CRUD erstellen
+- [x] tRPC-Router für Buchungen-Logik erstellen
+- [x] Authentifizierung und Autorisierung (Gast vs. Gastgeber vs. Admin)
 
 ## Phase 2: Frontend-Grundlagen & Design-System
-- [ ] Design-Token definieren (Farben: Terrakotta, Ocker, Salbeigrün, Creme)
-- [ ] Globale Styles und Tailwind-Konfiguration
-- [ ] Basis-Layout-Komponenten (Header, Footer, Navigation)
-- [ ] Responsive Breakpoints testen
+- [x] Design-Token definieren (Farben: Terrakotta, Ocker, Salbeigrün, Creme)
+- [x] Globale Styles und Tailwind-Konfiguration
+- [x] Basis-Layout-Komponenten (Header, Footer, Navigation)
+- [x] Responsive Breakpoints testen
 
 ## Phase 3: Landingpage
-- [ ] Hero-Bereich mit Hintergrundbild/Grafik
-- [ ] Suchfeld (Ort, Datum, Personenanzahl)
-- [ ] Featured-Lauben-Sektion
-- [ ] Call-to-Action-Buttons
-- [ ] Statistiken/Highlights-Bereich
+- [x] Hero-Bereich mit Hintergrundbild/Grafik
+- [x] Suchfeld (Ort, Datum, Personenanzahl)
+- [x] Featured-Lauben-Sektion
+- [x] Call-to-Action-Buttons
+- [x] Statistiken/Highlights-Bereich
 
 ## Phase 4: Inserate-Übersichtsseite
-- [ ] Lauben-Listenseite mit Karten-Layout
-- [ ] Filter nach Preis, Entfernung zum Radweg, Ausstattung
+- [x] Lauben-Listenseite mit Karten-Layout
+- [x] Filter nach Preis, Entfernung zum Radweg, Ausstattung
 - [ ] Sortierungsoptionen
 - [ ] Pagination oder Infinite Scroll
-- [ ] Responsive Grid-Layout
+- [x] Responsive Grid-Layout
 
 ## Phase 5: Detailseite für Gartenlaube
 - [ ] Foto-Galerie (mehrere Bilder)

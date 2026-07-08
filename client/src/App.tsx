@@ -6,6 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Listings from "./pages/Listings";
+import ListingDetail from "./pages/ListingDetail";
+import HostDashboard from "./pages/HostDashboard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -13,6 +15,8 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/listings"} component={Listings} />
+      <Route path={"/listings/:id"} component={ListingDetail} />
+      <Route path={"/dashboard"} component={HostDashboard} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
