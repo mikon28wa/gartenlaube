@@ -6,6 +6,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import BookingConfirmation from "./pages/BookingConfirmation";
 import Listings from "./pages/Listings";
 import ListingDetail from "./pages/ListingDetail";
 import HostDashboard from "./pages/HostDashboard";
@@ -22,6 +23,7 @@ function Router() {
       <Route path={"listings"} component={Listings} />
       <Route path={"listings/:id"} component={ListingDetail} />
       <Route path={"search"} component={SearchFilters} />
+      <Route path={"/booking-confirmation"} component={BookingConfirmation} />
       <Route path={"/dashboard"} component={HostDashboard} />
       <Route path={"/profile"} component={Profile} />
       <Route path={"/map"} component={MapView} />

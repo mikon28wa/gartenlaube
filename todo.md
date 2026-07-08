@@ -28,33 +28,33 @@
 - [x] Responsive Grid-Layout
 
 ## Phase 5: Detailseite für Gartenlaube
-- [ ] Foto-Galerie (mehrere Bilder)
-- [ ] Beschreibung und Ausstattungsmerkmale
-- [ ] Preis pro Nacht anzeigen
-- [ ] Verfügbarkeitskalender
-- [ ] Buchungsformular
-- [ ] Gastgeber-Informationen
-- [ ] Bewertungen und Ratings anzeigen
+- [x] Foto-Galerie (mehrere Bilder)
+- [x] Beschreibung und Ausstattungsmerkmale
+- [x] Preis pro Nacht anzeigen
+- [x] Verfügbarkeitskalender
+- [x] Buchungsformular
+- [x] Gastgeber-Informationen
+- [x] Bewertungen und Ratings anzeigen
 
 ## Phase 6: Gastgeber-Dashboard
-- [ ] Dashboard-Layout mit Sidebar-Navigation
-- [ ] Lauben-Verwaltung (Erstellen, Bearbeiten, Löschen)
-- [ ] Buchungsanfragen-Verwaltung (Annehmen/Ablehnen)
-- [ ] Verfügbarkeitskalender verwalten
-- [ ] Statistiken und Übersicht
+- [x] Dashboard-Layout mit Sidebar-Navigation
+- [x] Lauben-Verwaltung (Erstellen, Bearbeiten, Löschen)
+- [x] Buchungsanfragen-Verwaltung (Annehmen/Ablehnen)
+- [x] Verfügbarkeitskalender verwalten
+- [x] Statistiken und Übersicht
 
 ## Phase 7: Buchungssystem
-- [ ] Buchungsanfrage-Logik (Status: pending, confirmed, rejected, cancelled)
-- [ ] Verfügbarkeitsprüfung
-- [ ] Buchungsbestätigung
-- [ ] Buchungshistorie für Gäste
+- [x] Buchungsanfrage-Logik (Status: pending, confirmed, rejected, cancelled)
+- [x] Verfügbarkeitsprüfung
+- [x] Buchungsbestätigung
+- [x] Buchungshistorie für Gäste
 
 ## Phase 8: Nutzerprofil
-- [ ] Profilseite mit Benutzerinformationen
-- [ ] Buchungshistorie anzeigen
-- [ ] Favoriten-Liste (gespeicherte Lauben)
-- [ ] Bewertungen des Benutzers anzeigen
-- [ ] Account-Einstellungen
+- [x] Profilseite mit Benutzerinformationen
+- [x] Buchungshistorie anzeigen
+- [x] Favoriten-Liste (gespeicherte Lauben)
+- [x] Bewertungen des Benutzers anzeigen
+- [x] Account-Einstellungen
 
 ## Phase 9: Bewertungssystem
 - [ ] Bewertungsformular nach Aufenthalt
@@ -63,11 +63,11 @@
 - [ ] Durchschnittliche Bewertung berechnen
 
 ## Phase 10: Kartenansicht
-- [ ] Google Maps-Integration
-- [ ] Marker für alle Lauben
-- [ ] Marker-Cluster für bessere Performance
-- [ ] Info-Fenster bei Marker-Klick
-- [ ] Radweg-Layer anzeigen (optional)
+- [x] Google Maps-Integration
+- [x] Marker für alle Lauben
+- [x] Marker-Cluster für bessere Performance
+- [x] Info-Fenster bei Marker-Klick
+- [x] Radweg-Layer anzeigen (optional)
 
 ## Phase 11: Benachrichtigungen
 - [ ] In-App-Benachrichtigungen
