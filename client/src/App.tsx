@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 import Listings from "./pages/Listings";
 import ListingDetail from "./pages/ListingDetail";
 import HostDashboard from "./pages/HostDashboard";
+import Profile from "./pages/Profile";
+import MapView from "./pages/MapView";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -17,6 +19,8 @@ function Router() {
       <Route path={"/listings"} component={Listings} />
       <Route path={"/listings/:id"} component={ListingDetail} />
       <Route path={"/dashboard"} component={HostDashboard} />
+      <Route path={"/profile"} component={Profile} />
+      <Route path={"/map"} component={MapView} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
