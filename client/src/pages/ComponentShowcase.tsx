@@ -227,7 +227,7 @@ export default function ComponentsShowcase() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[#F5F1E8] text-[#2C2C2C]">
       <main className="container max-w-6xl mx-auto">
         <div className="space-y-2 justify-between flex">
           <h2 className="text-3xl font-bold tracking-tight mb-6">
@@ -254,7 +254,7 @@ export default function ComponentsShowcase() {
                       <p className="text-sm text-muted-foreground mb-1">
                         Foreground (Default)
                       </p>
-                      <p className="text-foreground text-lg">
+                      <p className="text-[#2C2C2C] text-lg">
                         Default text color for main content
                       </p>
                     </div>
@@ -370,7 +370,7 @@ export default function ComponentsShowcase() {
                       Popover background with foreground text
                     </p>
                   </div>
-                  <div className="bg-background text-foreground rounded-lg p-4 border">
+                  <div className="bg-[#F5F1E8] text-[#2C2C2C] rounded-lg p-4 border">
                     <p className="font-medium mb-1">Background</p>
                     <p className="text-sm opacity-90">
                       Default background with foreground text
