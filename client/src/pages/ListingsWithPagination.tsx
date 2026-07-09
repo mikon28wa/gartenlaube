@@ -72,13 +72,18 @@ export default function ListingsWithPagination() {
   };
 
   const amenityOptions = [
-    { id: 'wifi', label: 'WiFi', icon: Wifi },
-    { id: 'kitchen', label: 'Küche', icon: UtensilsCrossed },
-    { id: 'shower', label: 'Dusche', icon: null },
-    { id: 'bed', label: 'Bett', icon: null },
-    { id: 'terrace', label: 'Terrasse', icon: null },
-    { id: 'garden', label: 'Garten', icon: null },
-    { id: 'parking', label: 'Parkplatz', icon: null },
+    { id: 'wifi', label: 'WiFi / Internet', category: 'Konnektivität' },
+    { id: 'electricity', label: 'Strom', category: 'Versorgung' },
+    { id: 'water', label: 'Wasser', category: 'Versorgung' },
+    { id: 'kitchen', label: 'Küche', category: 'Ausstattung' },
+    { id: 'shower', label: 'Dusche / Bad', category: 'Ausstattung' },
+    { id: 'bed', label: 'Bett', category: 'Ausstattung' },
+    { id: 'terrace', label: 'Terrasse', category: 'Außenbereiche' },
+    { id: 'garden', label: 'Garten', category: 'Außenbereiche' },
+    { id: 'parking', label: 'Parkplatz', category: 'Zusätzlich' },
+    { id: 'heating', label: 'Heizung', category: 'Versorgung' },
+    { id: 'lighting', label: 'Beleuchtung', category: 'Versorgung' },
+    { id: 'furniture', label: 'Möbel', category: 'Ausstattung' },
   ];
 
   return (
@@ -97,6 +102,27 @@ export default function ListingsWithPagination() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg p-6 shadow-md sticky top-4">
               <h2 className="text-xl font-bold text-[#333] mb-4">Filter</h2>
+
+              {/* Active Filters */}
+              {filters.amenities.length > 0 && (
+                <div className="mb-6 pb-6 border-b border-[#E8D5C4]">
+                  <p className="text-xs font-semibold text-[#333] mb-2">Aktive Filter:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {filters.amenities.map((amenity) => {
+                      const amenityLabel = amenityOptions.find((a) => a.id === amenity)?.label;
+                      return (
+                        <button
+                          key={amenity}
+                          onClick={() => handleAmenityToggle(amenity)}
+                          className="px-2 py-1 bg-[#C85A3A] text-white text-xs rounded-full hover:bg-[#B84A2A] transition-colors duration-200"
+                        >
+                          {amenityLabel} ✕
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* City Filter */}
               <div className="mb-6">
@@ -152,21 +178,50 @@ export default function ListingsWithPagination() {
                 />
               </div>
 
+              {/* Reset Filters */}
+              {(filters.city || filters.amenities.length > 0 || filters.minPrice > 0 || filters.maxPrice < 200 || filters.maxDistanceToRadweg < 10) && (
+                <button
+                  onClick={() => {
+                    handleFilterChange({
+                      city: '',
+                      minPrice: 0,
+                      maxPrice: 200,
+                      maxDistanceToRadweg: 10,
+                      amenities: [],
+                    });
+                  }}
+                  className="w-full px-4 py-2 bg-[#E8D5C4] text-[#333] rounded-lg hover:bg-[#D4C5B4] transition-colors duration-200 font-semibold mb-6"
+                >
+                  Filter zurücksetzen
+                </button>
+              )}
+
               {/* Amenities Filter */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-[#333] mb-3">Ausstattung</label>
-                <div className="space-y-2">
-                  {amenityOptions.map((amenity) => (
-                    <label key={amenity.id} className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={filters.amenities.includes(amenity.id)}
-                        onChange={() => handleAmenityToggle(amenity.id)}
-                        className="w-4 h-4 rounded border-[#E8D5C4]"
-                      />
-                      <span className="text-sm text-[#666]">{amenity.label}</span>
-                    </label>
-                  ))}
+                <div className="space-y-3">
+                  {['Versorgung', 'Konnektivität', 'Ausstattung', 'Außenbereiche', 'Zusätzlich'].map((category) => {
+                    const categoryAmenities = amenityOptions.filter((a) => a.category === category);
+                    if (categoryAmenities.length === 0) return null;
+                    return (
+                      <div key={category}>
+                        <p className="text-xs font-bold text-[#C85A3A] uppercase mb-2">{category}</p>
+                        <div className="space-y-2 pl-2 border-l-2 border-[#E8D5C4]">
+                          {categoryAmenities.map((amenity) => (
+                            <label key={amenity.id} className="flex items-center gap-2 cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={filters.amenities.includes(amenity.id)}
+                                onChange={() => handleAmenityToggle(amenity.id)}
+                                className="w-4 h-4 rounded border-[#E8D5C4]"
+                              />
+                              <span className="text-sm text-[#666]">{amenity.label}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
