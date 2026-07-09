@@ -5,6 +5,18 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import * as db from "./db";
 import { TRPCError } from "@trpc/server";
+import {
+  gartenlaubenListInputSchema,
+  gartenlaubenCreateInputSchema,
+  gartenlaubenUpdateInputSchema,
+  gartenlaubenIdInputSchema,
+  bookingCreateInputSchema,
+  bookingIdInputSchema,
+  bookingRejectInputSchema,
+  reviewListInputSchema,
+  reviewCreateInputSchema,
+  favoriteGartenlaubeInputSchema,
+} from "../shared/trpc-schemas";
 
 export const appRouter = router({
   system: systemRouter,
@@ -23,17 +35,7 @@ export const appRouter = router({
   gartenlauben: router({
     // Get all gartenlauben with optional filters
     list: publicProcedure
-      .input(
-        z.object({
-          city: z.string().optional(),
-          minPrice: z.number().optional(),
-          maxPrice: z.number().optional(),
-          maxDistanceToRadweg: z.number().optional(),
-          amenities: z.array(z.string()).optional(),
-          limit: z.number().default(20),
-          offset: z.number().default(0),
-        })
-      )
+      .input(gartenlaubenListInputSchema)
       .query(async ({ input }) => {
         return await db.getAllGartenlauben({
           city: input.city,
@@ -48,7 +50,7 @@ export const appRouter = router({
 
     // Get single gartenlaube by ID
     getById: publicProcedure
-      .input(z.object({ id: z.number() }))
+      .input(gartenlaubenIdInputSchema)
       .query(async ({ input }) => {
         const gartenlaube = await db.getGartenlaubenById(input.id);
         if (!gartenlaube) {
@@ -67,22 +69,7 @@ export const appRouter = router({
 
     // Create new gartenlaube
     create: protectedProcedure
-      .input(
-        z.object({
-          title: z.string().min(3).max(255),
-          description: z.string().optional(),
-          pricePerNight: z.string(),
-          maxGuests: z.number().min(1),
-          latitude: z.string(),
-          longitude: z.string(),
-          address: z.string(),
-          city: z.string(),
-          postalCode: z.string().optional(),
-          distanceToRadweg: z.string().optional(),
-          amenities: z.array(z.string()).optional(),
-          images: z.array(z.string()).optional(),
-        })
-      )
+      .input(gartenlaubenCreateInputSchema)
       .mutation(async ({ input, ctx }) => {
         if (ctx.user.role !== "host" && ctx.user.role !== "admin") {
           throw new TRPCError({ code: "FORBIDDEN" });
@@ -96,22 +83,7 @@ export const appRouter = router({
 
     // Update gartenlaube
     update: protectedProcedure
-      .input(
-        z.object({
-          id: z.number(),
-          title: z.string().optional(),
-          description: z.string().optional(),
-          pricePerNight: z.string().optional(),
-          maxGuests: z.number().optional(),
-          address: z.string().optional(),
-          city: z.string().optional(),
-          postalCode: z.string().optional(),
-          distanceToRadweg: z.string().optional(),
-          amenities: z.array(z.string()).optional(),
-          images: z.array(z.string()).optional(),
-          isActive: z.boolean().optional(),
-        })
-      )
+      .input(gartenlaubenUpdateInputSchema)
       .mutation(async ({ input, ctx }) => {
         const gartenlaube = await db.getGartenlaubenById(input.id);
         if (!gartenlaube) {
@@ -131,7 +103,7 @@ export const appRouter = router({
 
     // Delete gartenlaube
     delete: protectedProcedure
-      .input(z.object({ id: z.number() }))
+      .input(gartenlaubenIdInputSchema)
       .mutation(async ({ input, ctx }) => {
         const gartenlaube = await db.getGartenlaubenById(input.id);
         if (!gartenlaube) {
@@ -166,7 +138,7 @@ export const appRouter = router({
 
     // Get single booking
     getById: protectedProcedure
-      .input(z.object({ id: z.number() }))
+      .input(bookingIdInputSchema)
       .query(async ({ input, ctx }) => {
         const booking = await db.getBookingById(input.id);
         if (!booking) {
@@ -186,15 +158,7 @@ export const appRouter = router({
 
     // Create booking request
     create: protectedProcedure
-      .input(
-        z.object({
-          gartenlaubeId: z.number(),
-          checkInDate: z.date(),
-          checkOutDate: z.date(),
-          numberOfGuests: z.number().min(1),
-          guestMessage: z.string().optional(),
-        })
-      )
+      .input(bookingCreateInputSchema)
       .mutation(async ({ input, ctx }) => {
         const gartenlaube = await db.getGartenlaubenById(
           input.gartenlaubeId
@@ -259,7 +223,7 @@ export const appRouter = router({
 
     // Confirm booking (host only)
     confirm: protectedProcedure
-      .input(z.object({ id: z.number() }))
+      .input(bookingIdInputSchema)
       .mutation(async ({ input, ctx }) => {
         const booking = await db.getBookingById(input.id);
         if (!booking) {
@@ -289,7 +253,7 @@ export const appRouter = router({
 
     // Reject booking (host only)
     reject: protectedProcedure
-      .input(z.object({ id: z.number(), message: z.string().optional() }))
+      .input(bookingRejectInputSchema)
       .mutation(async ({ input, ctx }) => {
         const booking = await db.getBookingById(input.id);
         if (!booking) {
@@ -320,7 +284,7 @@ export const appRouter = router({
 
     // Cancel booking (guest only)
     cancel: protectedProcedure
-      .input(z.object({ id: z.number() }))
+      .input(bookingIdInputSchema)
       .mutation(async ({ input, ctx }) => {
         const booking = await db.getBookingById(input.id);
         if (!booking) {
@@ -355,7 +319,7 @@ export const appRouter = router({
 
     // Add to favorites
     add: protectedProcedure
-      .input(z.object({ gartenlaubeId: z.number() }))
+      .input(favoriteGartenlaubeInputSchema)
       .mutation(async ({ input, ctx }) => {
         const gartenlaube = await db.getGartenlaubenById(
           input.gartenlaubeId
@@ -369,14 +333,14 @@ export const appRouter = router({
 
     // Remove from favorites
     remove: protectedProcedure
-      .input(z.object({ gartenlaubeId: z.number() }))
+      .input(favoriteGartenlaubeInputSchema)
       .mutation(async ({ input, ctx }) => {
         return await db.removeFavorite(ctx.user.id, input.gartenlaubeId);
       }),
 
     // Check if favorited
     isFavorite: protectedProcedure
-      .input(z.object({ gartenlaubeId: z.number() }))
+      .input(favoriteGartenlaubeInputSchema)
       .query(async ({ input, ctx }) => {
         return await db.isFavorite(ctx.user.id, input.gartenlaubeId);
       }),
@@ -386,29 +350,21 @@ export const appRouter = router({
   reviews: router({
     // Get reviews for gartenlaube
     list: publicProcedure
-      .input(z.object({ gartenlaubeId: z.number() }))
+      .input(reviewListInputSchema)
       .query(async ({ input }) => {
         return await db.getReviewsByGartenlaubeId(input.gartenlaubeId);
       }),
 
     // Get average rating
     averageRating: publicProcedure
-      .input(z.object({ gartenlaubeId: z.number() }))
+      .input(reviewListInputSchema)
       .query(async ({ input }) => {
         return await db.getAverageRating(input.gartenlaubeId);
       }),
 
     // Create review
     create: protectedProcedure
-      .input(
-        z.object({
-          gartenlaubeId: z.number(),
-          bookingId: z.number(),
-          rating: z.number().min(1).max(5),
-          title: z.string().optional(),
-          comment: z.string().optional(),
-        })
-      )
+      .input(reviewCreateInputSchema)
       .mutation(async ({ input, ctx }) => {
         const booking = await db.getBookingById(input.bookingId);
         if (!booking) {
