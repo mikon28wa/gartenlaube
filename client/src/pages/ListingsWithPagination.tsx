@@ -9,6 +9,7 @@ const ITEMS_PER_PAGE = 6;
 
 export default function ListingsWithPagination() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'distance-asc' | 'distance-desc' | 'featured'>('featured');
   const [filters, setFilters] = useState({
     city: '',
     minPrice: 0,
@@ -34,7 +35,26 @@ export default function ListingsWithPagination() {
   // Calculate total pages (assuming backend returns total count)
   // For now, we'll estimate based on the number of items returned
   const totalPages = data && data.length > 0 ? Math.ceil(100 / ITEMS_PER_PAGE) : 1;
-  const listings = Array.isArray(data) ? data : [];
+  let listings = Array.isArray(data) ? data : [];
+
+  // Apply sorting
+  if (listings.length > 0) {
+    listings = [...listings].sort((a: any, b: any) => {
+      switch (sortBy) {
+        case 'price-asc':
+          return Number(a.pricePerNight) - Number(b.pricePerNight);
+        case 'price-desc':
+          return Number(b.pricePerNight) - Number(a.pricePerNight);
+        case 'distance-asc':
+          return Number(a.distanceToRadweg || 0) - Number(b.distanceToRadweg || 0);
+        case 'distance-desc':
+          return Number(b.distanceToRadweg || 0) - Number(a.distanceToRadweg || 0);
+        case 'featured':
+        default:
+          return b.isFeatured ? 1 : -1;
+      }
+    });
+  }
 
   const handleFilterChange = (newFilters: typeof filters) => {
     setFilters(newFilters);
@@ -168,6 +188,29 @@ export default function ListingsWithPagination() {
               </div>
             )}
 
+            {/* Sort Controls */}
+            {!isLoading && listings.length > 0 && (
+              <div className="mb-6 flex justify-between items-center">
+                <p className="text-sm text-[#666]">{listings.length} Gartenlauben gefunden</p>
+                <div className="flex gap-2">
+                  <label className="text-sm text-[#666] flex items-center gap-2">
+                    Sortieren nach:
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value as any)}
+                      className="px-3 py-1 border border-[#E8D5C4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C85A3A] text-sm"
+                    >
+                      <option value="featured">Empfohlen</option>
+                      <option value="price-asc">Preis: Niedrig → Hoch</option>
+                      <option value="price-desc">Preis: Hoch → Niedrig</option>
+                      <option value="distance-asc">Entfernung: Nah → Fern</option>
+                      <option value="distance-desc">Entfernung: Fern → Nah</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            )}
+
             {/* Listings Grid */}
             {!isLoading && listings.length > 0 && (
               <>
@@ -223,6 +266,13 @@ export default function ListingsWithPagination() {
                             </span>
                           ))}
                         </div>
+
+                        {/* Distance to Radweg */}
+                        {listing.distanceToRadweg && (
+                          <div className="text-xs text-[#666] mb-3">
+                            <span className="font-semibold">Zum Radweg:</span> {listing.distanceToRadweg} km
+                          </div>
+                        )}
 
                         {/* Price and Button */}
                         <div className="flex justify-between items-center">
