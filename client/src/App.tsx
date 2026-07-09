@@ -14,12 +14,14 @@ import Profile from "./pages/Profile";
 import MapView from "./pages/MapView";
 import BookingTest from "./pages/BookingTest";
 import CalendarTest from "./pages/CalendarTest";
+import ListingsWithPagination from "./pages/ListingsWithPagination";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"listings-paginated"} component={ListingsWithPagination} />
       <Route path={"listings"} component={Listings} />
       <Route path={"listings/:id"} component={ListingDetail} />
       <Route path={"search"} component={SearchFilters} />
